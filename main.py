@@ -29,13 +29,16 @@ class Record:
         self.phones = [phone for phone in self.phones if phone.value != phone_number]
 
     def edit_phone(self, old_phone_number, new_phone_number):
+        if not isinstance(new_phone_number, str) or not new_phone_number.isdigit() or len(new_phone_number) != 10:
+            raise ValueError("Invalid new phone number format")
+    
         found = False
         for phone in self.phones:
             if phone.value == old_phone_number:
                 phone.value = new_phone_number
                 found = True
                 break
-        if not found:
+        else:
             raise ValueError(f"Phone number {old_phone_number} not found in the record")
 
     def find_phone(self, phone_number):
@@ -57,5 +60,3 @@ class AddressBook(UserDict):
     def delete(self, name):
         if name in self.data:
             del self.data[name] 
-
-      
